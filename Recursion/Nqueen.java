@@ -5,55 +5,32 @@ import java.util.List;
 
 public class Nqueen {
     public static void main(String[] args) {
-        int n=6;
-        int mat[][];
+        int n=9;
+        int mat[][]=new int[n][n];
         int q[]=new int[n];
-        List<String> s;
-        for(int i=0;i<n;i++){
-            q[0]=i;
-            mat=new int[n][n];
-            s=new ArrayList<>();
-            mat[0][i]=1;
-            s.add(comb(mat[0]));
-            // System.out.println("Placing queen 0 at 0 "+s);
-            fun(mat,q,1,0,s);
+        List<String> s=new ArrayList<>();
+        fun(mat,q,0,s);
+        for(String s1:s){
+            System.out.println(s1);
         }
+
     }
-    static void fun(int mat[][],int q[], int k,int pos,List<String> s){
-        int i=0;
-        boolean placed=false;
-        if(pos==-1 && k==0){
+    static void fun(int mat[][],int q[], int k,List<String> s){
+
+        if(k==q.length){
+            print(q);
+            // store(mat,s);
             return;
         }
-        if(pos==-1){
-            mat[k][q[k]]=0;
-            i=q[k]+1;
-            s.remove(k);
-        }
-        for(int i1=i;i1<q.length;i1++){
+        for(int i1=0;i1<q.length;i1++){
             // System.out.println("Checking "+k+" "+i1);
             if(isValid(mat, k, i1, q.length)){
                 // System.out.println("Placing queen "+k+" at "+k+" "+i1);
                 mat[k][i1]=1;
                 q[k]=i1;
-                placed=true;
-                break;
+                fun(mat,q,k+1,s);
+                mat[k][i1]=0;
             }
-        }
-        if(placed){
-            String s1=comb(mat[k]);
-            s.add(s1);
-            // System.out.println(s1);
-            if(k==q.length-1){
-                print(mat);
-                for(String s2:s){
-                    System.out.println(s2);
-                }
-                return;
-            }
-            fun(mat,q,k+1,0,s);
-        } else {
-            fun(mat,q,k-1,-1,s);
         }
     }
     static boolean isValid(int mat[][],int m,int n,int k){
@@ -99,6 +76,21 @@ public class Nqueen {
                 System.out.print(mat[i][j]+" ");
             }
             System.out.println();
+        }
+    }
+    static void print(int arr[]){
+        for(int i=0;i<arr.length;i++){
+            System.out.print(arr[i]+ " ");
+        }
+        System.out.println();
+    }
+    static void store(int mat[][],List<String> s){
+        for(int i=0;i<mat.length;i++){
+            StringBuilder sb=new StringBuilder();
+            for(int j=0;j<mat[0].length;j++){
+                sb.append(mat[i][j]==0?".":"Q");
+            }
+            s.add(sb.toString());
         }
     }
 }
