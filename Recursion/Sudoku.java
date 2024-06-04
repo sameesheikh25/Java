@@ -27,19 +27,28 @@ public class Sudoku {
             }
             // func(mat,r,c+1);
         }
-        for(int i=1;i<=9;i++){
+        int i;
+        for(i=1;i<=9;i++){
             if(isValid(mat,r,c,i)){
                 mat[r][c]=i;
                 // System.out.println(r+" "+c+" "+i);
                 if(c>=8){
-                    if(func(mat,r+1,0)) return true;
+                    if(!func(mat,r+1,0)) {
+                        mat[r][c]=0;
+                    } else {
+                        return true;
+                    }
                 } else {
-                    if(func(mat,r,c+1)) return true;
+                    if(!func(mat,r,c+1)) {
+                        mat[r][c]=0;
+                    } else {
+                        return true;
+                    }
                 }
-                mat[r][c]=0;
+                // mat[r][c]=0;
             }
         }
-        return false;
+        return i>=1 && i<=9;
     }
     static boolean isValid(int mat[][],int m,int n,int k){
         int r=m;
