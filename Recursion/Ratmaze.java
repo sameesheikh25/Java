@@ -17,6 +17,18 @@ public class Ratmaze {
         for(String s:res){
             System.out.println(s);
         }
+        toh(3,1,3,2);
+    }
+    public static long toh(int n, int from, int to, int aux) {
+        // Your code here
+        if(n==1){
+            System.out.println("Moving disk "+n+" from rod "+from+" to rod "+to);
+            return 1;
+        }
+        toh(n-1,from,aux,to);
+        System.out.println("Moving disk "+n+" from rod "+from+" to rod "+to);
+        toh(n-1,aux,to,from);
+        return (long)Math.pow(2,n)-1;
     }
     static void ratmaze(int mat[][],int s1,int s2,int d1,int d2,boolean v[][],String s,ArrayList<String> res){
         // System.out.println(s1+" "+s2);
