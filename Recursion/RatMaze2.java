@@ -6,56 +6,64 @@ import java.util.List;
 
 class RatMaze2 {
     public static void main(String[] args) {
-        int mat[][]={{3,1,0,0},{0,1,0,0},{0,1,0,1},{0,1,0,1}};
+        int mat[][]={{2,1,2,2},{4,3,2,2},{0,1,3,2},{1,4,0,4}};
         int vis[][]=new int[mat.length][mat[0].length];
-        List<Pair> list = new ArrayList<>();
-        func(0,0,mat.length,mat,vis,0,list);
-        Collections.sort(list);
+        // List<Pair> list = new ArrayList<>();
+        // func(0,0,mat.length,mat,vis,list);
+        // func(0, 0, 0, mat, vis);
+        // Collections.sort(list);
         // for(Pair p:list){
         //     print(p.mat);
         //     System.out.println(p.count);
         // }
-        if(list.size()>0){
-            print(list.get(0).mat);
-            System.out.println(list.get(0).count);
+        // if(list.size()>0){
+        //     print(list.get(0).mat);
+        //     System.out.println(list.get(0).count);
+        // }
+        // else{
+        //     System.out.println("No path found");
+        // }
+        if(func(0, 0, 4, mat, vis)){
+            print(vis);
         }
         else{
             System.out.println("No path found");
         }
     }
-    static void func(int r,int c,int n,int mat[][],int vis[][],int count,List<Pair> list){
+    static boolean func(int r,int c,int n,int mat[][],int vis[][]){
         if(r==n-1 && c==n-1){
             vis[r][c]=1;
-            Pair p =new Pair();
-            p.setCount(count);
-            p.setMat(vis);
-            list.add(p);
+            // Pair p =new Pair();
+            // p.setCount(count);
+            // p.setMat(vis);
+            // list.add(p);
             // print(vis);
-            return;
+            return true;
         }
         if(mat[r][c]!=0){
             vis[r][c]=1;
-            for(int i=1;i<=mat[r][c] && (c+i)<n;i++){
-                // if(func(r,c+i,n,mat,vis,count++))
-                // {
-                //     return true;
-                // }
+            for(int i=1;i<=mat[r][c];i++){
+                if((c+i)<n && func(r,c+i,n,mat,vis))
+                {
+                    return true;
+                }
+                if((r+i)<n && func(r+i,c,n,mat,vis)){
+                    return true;
+                }
                 // System.out.println("r="+r+" c="+c+" count="+count);
-                func(r,c+i,n,mat,vis,++count,list);
-                --count;
+                // func(r,c+i,n,mat,vis,list);
             }
             // System.out.println("r2="+r+" c2="+c+" count="+count);
-            for(int i=1;i<=mat[r][c] && (r+i)<n;i++){
-                // if(func(r+i,c,n,mat,vis,count++)){
-                //     return true;
-                // }
+            // for(int i=1;i<=mat[r][c] && (r+i)<n;i++){
+            //     if(func(r+i,c,n,mat,vis)){
+            //         return true;
+            //     }
                 // System.out.println("r1="+r+" c1="+c+" count="+count);
-                func(r+i,c,n,mat,vis,++count,list);
-                --count;
-            }
+                // func(r+i,c,n,mat,vis,list);
+            // }
         }
         vis[r][c]=0;
-        // return false;
+        return false;
     }
     static void print(int mat[][]){
         for(int i=0;i<mat.length;i++){
