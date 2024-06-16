@@ -1,6 +1,7 @@
 package Logical;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -9,9 +10,11 @@ public class MaxtipCalculator {
         int arr[]={8, 7, 15, 19, 16, 16, 18};
         int brr[]={1,7, 15, 11, 12, 31, 9};
         int n=7,c1=3,c2=4;
-        int p[]=new int[n];
+        boolean v[]=new boolean[n];
         List<Pair> a1=new ArrayList<>();
         List<Pair> b1=new ArrayList<>();
+        ArrayList<Integer> s=new ArrayList<>();
+        ArrayList<Integer> c=new ArrayList<>();
         for(int i=0;i<n;i++){
             a1.add(new Pair(arr[i],i));
             b1.add(new Pair(brr[i],i));
@@ -25,7 +28,42 @@ public class MaxtipCalculator {
         // for(int i=0;i<n;i++){
         //     System.out.print(b1.get(i).num+" "+b1.get(i).pos+" ");
         // }
-        System.out.println(getTip(arr,brr,p,a1,b1,n,c1,c2));
+        // System.out.println(getTip(arr,brr,p,a1,b1,n,c1,c2));
+        getTip(arr,brr,c,s,c1,c2,0,0,n,v);
+        System.out.println(s.stream().mapToInt(Integer::intValue).max().getAsInt());
+        // System.out.println(s.contains(21));
+    }
+    static void getTip(int a[],int b[],ArrayList<Integer> c,ArrayList<Integer> s,int c1,int c2,int i1,int i2,int n,boolean v[]) {
+        if(c.size()==n){
+            System.out.println(c);
+            s.add(c.stream().mapToInt(Integer::intValue).sum());
+            return;
+        }
+        // for(int i=0;i<n;i++){
+            if(c1>=1 && i1<n && !v[i1]){
+                c.add(a[i1]);
+                v[i1]=true;
+                c1--;
+                i1++;
+                getTip(a,b,c,s,c1,c2,i1,i2,n,v);
+                c.remove(c.size()-1);
+                v[i1-1]=false;
+                c1++;
+            } 
+            if(c2>=1 && i2<n && !v[i2]){
+                c.add(b[i2]);
+                v[i2]=true;
+                c2--;
+                i2++;
+                getTip(a,b,c,s,c1,c2,i1,i2,n,v);
+                c.remove(c.size()-1);
+                v[i2-1]=false;
+                c2++;
+            }
+            // c1--;
+            // c2--;
+            // getTip(a,b,c,s,c1,c2,n);
+        // }
     }
     static long getTip(int arr[], int brr[],int p[], List<Pair> a1, List<Pair> b1,int n,int c1,int c2){
         long s=0;
