@@ -73,7 +73,11 @@ public class SmallestPositive {
         }
         return dp.get(t)==null ? false : dp.get(t);
     }
-    static long approcahFinal(int a[],int n){
+    /**
+     * This approach is elegant and efficient for finding the smallest missing sum, especially useful in constrained optimization problems and 
+     * when dealing with discrete sets of values.
+     */
+    static long approachFinal(int a[],int n){
         Arrays.sort(a);
         long result = 1;
 
