@@ -37,12 +37,16 @@ public class RemoveStudents {
         removeStudents(a, b, i1+1, n, arr);
     }
     static int removeStudents(int a[],int n){
-        int max=1;
+        int max=1,maxind=0;
         int a1[]=new int[n];
+        int b1[]=new int[n];
         String ans="";
         String str[]=new String[n];
         Arrays.fill(a1,1);
         Arrays.fill(str,"");
+        for(int i=0;i<n;i++){
+            b1[i]=i;
+        }
         for(int i=1;i<n;i++){
             int k=a1[i];
             String s=String.valueOf(a[i]);
@@ -52,6 +56,7 @@ public class RemoveStudents {
                     if(a1[j]+k>a1[i]){
                         str[i]=s+(str[j].length()==0?String.valueOf(a[j]):str[j]);
                         a1[i]=a1[j]+k;
+                        b1[i]=j;
                     }
                 }
             }
@@ -60,12 +65,23 @@ public class RemoveStudents {
                 StringBuffer s1= new StringBuffer(str[i]);
                 ans=s1.reverse().toString();
                 max=a1[i];
+                maxind=i;
             }
         }
-        // for(int i=0;i<n;i++){
-        //     System.out.print(str[i]+" ");
-        // }
-        System.out.println(ans);
+        for(int i=0;i<n;i++){
+            System.out.print(b1[i]+" ");
+        }
+        System.out.println(ans+" "+maxind);
+        String s1="";
+        int i1=maxind;
+        while(i1!=b1[i1]){
+            s1+=a[i1];
+            i1=b1[i1];
+            if(i1==b1[i1]){
+                s1+=a[i1];
+            }
+        }
+        System.out.println(new StringBuffer(s1).reverse().toString());
         return max;
     }
     static int removeStudents(int a[],int ind,int prev,int n,int dp[][]){
